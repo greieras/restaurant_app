@@ -51,16 +51,8 @@ export default {
     },
     methods: {
         increment: function (id) {
-            let cart = {id: id};
-            axios.post('/api/cart', cart)
-                .then((response) => {
-                    this.order = true;
-                    this.cart = response.data.cart;
-                    this.quantity = 1;
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+          let cart = {id: id};
+          return this.$store.updateCart(cart);
         },
         decrement(){
             if(this.quantity > 0){

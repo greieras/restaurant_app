@@ -9,6 +9,7 @@ export default {
         auth_error: null,
         customers: [],
         recipes: [],
+        cart: [],
     },
     getters: {
         isLoading(state){
@@ -28,6 +29,9 @@ export default {
         },
         recipes(state) {
             return state.recipes;
+        },
+        cart(state) {
+            return state.cart;
         }
     },
     mutations: {
@@ -55,6 +59,9 @@ export default {
         updateCustomers(state, payload) {
             state.customers = payload;
         },
+        updateCart(state, payload) {
+            state.cart = payload;
+        },
         updateRecipes(state, payload) {
             state.recipes = payload;
         }
@@ -79,6 +86,15 @@ export default {
                 }
             }).then((response) => {
                 context.commit('updateRecipes', response.data.recipes);
+            });
+        },
+        updateCart(context) {
+            axios.get('/api/cart/', {
+                headers: {
+                    "Authorization": `Bearer ${context.state.currentUser.token}`
+                }
+            }).then((response) => {
+                context.commit('updateCart', response.data.cart);
             });
         }
     }

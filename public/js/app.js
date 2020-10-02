@@ -2239,18 +2239,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     increment: function increment(id) {
-      var _this = this;
-
       var cart = {
         id: id
       };
-      axios.post('/api/cart', cart).then(function (response) {
-        _this.order = true;
-        _this.cart = response.data.cart;
-        _this.quantity = 1;
-      })["catch"](function (err) {
-        console.log(err);
-      });
+      return this.$store.updateCart(cart);
     },
     decrement: function decrement() {
       if (this.quantity > 0) {
@@ -56948,7 +56940,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLocalUser", function() { return getLocalUser; });
 function login(credentials) {
   return new Promise(function (res, rej) {
-    axios.post('api/auth/login', credentials).then(function (response) {
+    axios.post('api/login', credentials).then(function (response) {
       res(response.data);
     })["catch"](function (err) {
       rej('Wrong username or password');
@@ -57075,7 +57067,8 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
     loading: false,
     auth_error: null,
     customers: [],
-    recipes: []
+    recipes: [],
+    cart: []
   },
   getters: {
     isLoading: function isLoading(state) {
@@ -57095,6 +57088,9 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
     },
     recipes: function recipes(state) {
       return state.recipes;
+    },
+    cart: function cart(state) {
+      return state.cart;
     }
   },
   mutations: {
@@ -57123,6 +57119,9 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
     updateCustomers: function updateCustomers(state, payload) {
       state.customers = payload;
     },
+    updateCart: function updateCart(state, payload) {
+      state.cart = payload;
+    },
     updateRecipes: function updateRecipes(state, payload) {
       state.recipes = payload;
     }
@@ -57148,6 +57147,15 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
       }).then(function (response) {
         context.commit('updateRecipes', response.data.recipes);
       });
+    },
+    updateCart: function updateCart(context) {
+      axios.get('/api/cart/', {
+        headers: {
+          "Authorization": "Bearer ".concat(context.state.currentUser.token)
+        }
+      }).then(function (response) {
+        context.commit('updateCart', response.data.cart);
+      });
     }
   }
 });
@@ -57172,8 +57180,8 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\pizza_restaurant\pizza_restaurant\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\pizza_restaurant\pizza_restaurant\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\Projects\restaurant_app\restaurant_app\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\Projects\restaurant_app\restaurant_app\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
